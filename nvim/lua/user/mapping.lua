@@ -33,6 +33,13 @@ set_keymap("n", "<leader>et", vim.cmd.NvimTreeToggle)
 -- Leader-ef to focus the exporer
 set_keymap("n", "<leader>ef", vim.cmd.NvimTreeFocus)
 
+-- Use a protected call so we don"t error out on first use
+local status_ok, telescope = pcall(require, "telescope.builtins")
+if not status_ok then
+	M.lsp_mapping = function() end
+	return M
+end
+
 -- Lsp mapping stuff
 M.lsp_mapping = function(buffer_number)
 	local opts = { buffer = buffer_number }
@@ -49,21 +56,9 @@ M.lsp_mapping = function(buffer_number)
 
 	set_keymap("n", "<leader>pe", vim.diagnostic.goto_prev, opts)
 
-	-- Use a protected call so we don"t error out on first use
-	local status_ok, telescope = pcall(require, "telescope.builtins")
-	if not status_ok then
-		return
-	end
-
 	set_keymap("n", "<leader>ss", telescope.spell_suggest, opts)
 
 	set_keymap("n", "<leader>gr", telescope.lsp_references, opts)
-end
-
--- Use a protected call so we don"t error out on first use
-local status_ok, telescope = pcall(require, "telescope.builtins")
-if not status_ok then
-	return
 end
 
 -- Leader-ff to find files
