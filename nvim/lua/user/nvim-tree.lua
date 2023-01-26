@@ -1,4 +1,10 @@
-require("nvim-tree").setup({
+-- Use a protected call so we don"t error out on first use
+local status_ok, nvim_tree = pcall(require, "nvim-tree")
+if not status_ok then
+	return
+end
+
+nvim_tree.setup({
 	renderer = {
 		icons = {
 			show = {
