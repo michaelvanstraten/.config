@@ -1,11 +1,1 @@
-require "user.options"
-require "user.packer"
-require "user.lsp"
-require "user.cmp"
-require "user.auto-save"
-require "user.treesitter"
-require "user.autopairs"
-require "user.mapping"
-require "user.feline"
-require "user.nvim-tree"
-require "user.nvim-comment"
+require("user.init")

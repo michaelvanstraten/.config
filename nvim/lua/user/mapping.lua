@@ -45,6 +45,8 @@ set_keymap("n", "<leader>fs", telescope.live_grep)
 M.lsp_mapping = function(buffer_number)
 	local opts = { buffer = buffer_number }
 
+	set_keymap("n", "<leader>ss", telescope.spell_suggest, opts)
+
 	set_keymap("n", "<leader>i", vim.lsp.buf.hover, opts)
 
 	set_keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)

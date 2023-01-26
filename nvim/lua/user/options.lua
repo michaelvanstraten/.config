@@ -23,6 +23,9 @@ set.iskeyword:append("-")
 
 set.mouse:append("a")
 
+set.spell = true
+set.spelllang = { "en", "de" }
+
 set.background = "dark"
 set.termguicolors = true
 
