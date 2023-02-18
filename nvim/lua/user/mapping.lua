@@ -4,9 +4,6 @@ local set_keymap = vim.keymap.set
 
 local M = {}
 
--- Control-f to format file
-set_keymap("n", "<leader>f", vim.lsp.buf.format)
-
 -- jk for exit into normal mode
 set_keymap("i", "jk", "<ESC>")
 set_keymap("i", "kj", "<ESC>")
@@ -24,7 +21,7 @@ set_keymap("n", "<C-k>", ":m-2<cr>")
 set_keymap("v", "<C-j>", ":m'>+1<cr>gv")
 set_keymap("v", "<C-k>", ":m'<-2<cr>gv")
 
--- Leader-cs to clear search'
+-- Leader-cs to clear search
 set_keymap("n", "<leader>cs", ":nohlsearch<cr>")
 
 -- Leader-et to toggle the exporer
@@ -34,15 +31,25 @@ set_keymap("n", "<leader>et", vim.cmd.NvimTreeToggle)
 set_keymap("n", "<leader>ef", vim.cmd.NvimTreeFocus)
 
 -- Use a protected call so we don"t error out on first use
-local status_ok, telescope = pcall(require, "telescope.builtins")
+local status_ok, telescope = pcall(require, "telescope.builtin")
 if not status_ok then
 	M.lsp_mapping = function() end
 	return M
 end
 
+-- Leader-ff to find files
+set_keymap("n", "<leader>ff", telescope.find_files)
+
+-- Leader-fs to find string
+set_keymap("n", "<leader>fs", telescope.live_grep)
+
 -- Lsp mapping stuff
 M.lsp_mapping = function(buffer_number)
 	local opts = { buffer = buffer_number }
+
+	set_keymap("n", "<leader>f", function()
+		vim.lsp.buf.format({ async = true })
+	end, opts)
 
 	set_keymap("n", "<leader>i", vim.lsp.buf.hover, opts)
 
@@ -60,11 +67,5 @@ M.lsp_mapping = function(buffer_number)
 
 	set_keymap("n", "<leader>gr", telescope.lsp_references, opts)
 end
-
--- Leader-ff to find files
-set_keymap("n", "<leader>ff", telescope.find_files)
-
--- Leader-fs to find string
-set_keymap("n", "<leader>fs", telescope.live_grep)
 
 return M

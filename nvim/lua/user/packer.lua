@@ -61,7 +61,7 @@ return packer.startup(function(use)
 
 	use("windwp/nvim-autopairs")
 	use("terrortylor/nvim-comment")
-    use("tpope/vim-surround")
+	use("tpope/vim-surround")
 
 	use("feline-nvim/feline.nvim")
 	use("nvim-tree/nvim-web-devicons")

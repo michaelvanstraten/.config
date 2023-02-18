@@ -1,5 +1,5 @@
-local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_cmp_ok then
+local cmp_require_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not cmp_require_ok then
 	return
 end
 
@@ -7,7 +7,7 @@ local M = {}
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
-M.capabilities.textDocument.completion.completionItem.snippetSupport = false
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 vim.diagnostic.config({
 	virtual_text = true,

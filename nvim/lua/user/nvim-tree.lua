@@ -32,3 +32,5 @@ nvim_tree.setup({
 		ignore = true,
 	},
 })
+
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = require("nvim-tree.api").tree.open })

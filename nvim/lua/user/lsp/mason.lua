@@ -1,31 +1,51 @@
-require("mason").setup({})
-require("mason-lspconfig").setup({
+-- Use a protected call so we don"t error out on first use
+local mason_require_ok, mason = pcall(require, "mason")
+if not mason_require_ok then
+	return
+end
+
+mason.setup({})
+
+-- Use a protected call so we don"t error out on first use
+local mason_lspconfig_require_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not mason_lspconfig_require_ok then
+	return
+end
+
+mason_lspconfig.setup({
 	ensure_installed = {
-		"sumneko_lua",
+		"lua_ls",
 		"rust_analyzer",
 	},
 })
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
+-- Use a protected call so we don"t error out on first use
+local lspconfig_require_ok, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_require_ok then
 	return
 end
 
-local opts = {}
+local function load_opts(server)
+	local opts = {
+		on_attach = require("user.lsp.setup").on_attach,
+		capabilities = require("user.lsp.setup").capabilities,
+	}
 
-require("mason-lspconfig").setup_handlers({
+	local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
+	if require_ok then
+		opts = vim.tbl_deep_extend("force", conf_opts, opts)
+	end
+
+	return opts
+end
+
+lspconfig.sourcekit.setup(load_opts("sourcekit"))
+
+mason_lspconfig.setup_handlers({
 	function(server_name)
-		opts = {
-			on_attach = require("user.lsp.setup").on_attach,
-			capabilities = require("user.lsp.setup").capabilities,
-		}
-
 		local server = vim.split(server_name, "@")[1]
 
-		local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
-		if require_ok then
-			opts = vim.tbl_deep_extend("force", conf_opts, opts)
-		end
+		local opts = load_opts(server)
 
 		lspconfig[server].setup(opts)
 	end,

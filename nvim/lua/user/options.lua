@@ -29,4 +29,6 @@ set.spelllang = { "en", "de" }
 set.background = "dark"
 set.termguicolors = true
 
+set.wrap = false
+
 pcall(vim.cmd.colorscheme, "ayu-dark")
