@@ -8,3 +8,4 @@ local Rule = require("nvim-autopairs.rule")
 
 autopairs.setup()
 autopairs.add_rule(Rule("<", ">", "rust"))
+autopairs.add_rule(Rule("`", "`", "rust"))

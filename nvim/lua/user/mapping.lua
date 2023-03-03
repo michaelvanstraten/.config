@@ -55,7 +55,7 @@ M.lsp_mapping = function(buffer_number)
 
 	set_keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 
-	set_keymap("n", "<leader>gd", vim.lsp.buf.definition, opts)
+	set_keymap("n", "<leader>gd", telescope.lsp_definitions, opts)
 
 	set_keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
